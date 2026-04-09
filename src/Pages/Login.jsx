@@ -48,7 +48,7 @@ const Login = () => {
 
                 <div className='relative'>
                     <input id="email" type='email' value={formData.email} onChange={handleChange} placeholder='Enter email address' className={`appearance-none w-83.75 h-10 ml-5 mr-5 rounded-md text-[#1D2226] border focus:outline-none focus:ring-[0.5px] pl-4 pt-3 pb-2.75 placeholder:text-sm placeholder:h-4.25 placeholder:text-[#919191] ${isValid && !formData.email.trim() ? "border-red-500 focus:ring-red-500 focus:border-red-500" : "border-[#CBCBCB] focus:ring-[#6C25FF] focus:border-[#6C25FF]"} `} />
-                    <label htmlFor='email' className={`absolute left-7 -top-2 mb-8.5 pl-1.25  w-25.75 h-3.75 bg-[#F7F8F9] text-[13px] text-left leading-4.25 font-normal pb-0.5  ${isValid && (!formData.email.trim() || !emailRegex.test(formData.email)) ? "text-red-500" : "text-[#6C25FF]"}`}>Email Address
+                    <label htmlFor='email' className={`absolute left-7 -top-2 mb-8.5 pl-1.25  w-25.75 h-3.75 bg-[#F7F8F9] text-[13px] text-left leading-3 font-normal pb-0.5  ${isValid && (!formData.email.trim() || !emailRegex.test(formData.email)) ? "text-red-500" : "text-[#6C25FF]"}`}>Email Address
                     </label>
 
                     {formData.email && !emailRegex.test(formData.email) && (
@@ -63,7 +63,7 @@ const Login = () => {
 
                 <div className='relative'>
                     <input id="password" type='password' value={formData.password} onChange={handleChange} placeholder='Enter password' className={`appearance-none w-83.75 h-10 ml-5 mr-5 rounded-md text-[#1D2226] border focus:outline-none focus:ring-[0.5px] pl-4 pt-3 pb-2.75 placeholder:text-sm placeholder:h-4.25 placeholder:text-[#919191] ${isValid && !formData.password.trim() ? "border-red-500 focus:ring-red-500 focus:border-red-500" : "border-[#CBCBCB] focus:ring-[#6C25FF] focus:border-[#6C25FF]"} `} />
-                    <label htmlFor='email' className={`absolute left-7 -top-2 mb-8.5 pl-1.25 w-25.75 h-3.75 bg-[#F7F8F9] text-[13px] text-left leading-4.25 font-normal pb-0.5  ${isValid && (!formData.password.trim() || formData.password.length < 6) ? "text-red-500" : "text-[#6C25FF]"}`}>Password
+                    <label htmlFor='email' className={`absolute left-7 -top-2 mb-8.5 pl-1.25 w-25.75 h-3.75 bg-[#F7F8F9] text-[13px] text-left leading-3 font-normal pb-0.5  ${isValid && (!formData.password.trim() || formData.password.length < 6) ? "text-red-500" : "text-[#6C25FF]"}`}>Password
                     </label>
 
                     {formData.password && formData.password.length < 6 && (
