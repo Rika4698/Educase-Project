@@ -6,6 +6,7 @@ import Login from './Pages/Login'
 import Registration from './Pages/Registration'
 import ScrollToTop from './Components/ScrollToTop'
 import UserProfile from './Pages/UserProfile'
+import ProtectedRoute from './Pages/ProtectedRoute'
 
 function App() {
 
@@ -17,7 +18,7 @@ function App() {
         <Route path='/' element={<Home />}></Route>
         <Route path='/registration' element={<Registration />}></Route>
         <Route path='/login' element={<Login />}></Route>
-        <Route path='/user' element={<UserProfile />}></Route>
+        <Route path='/user' element={<ProtectedRoute><UserProfile /></ProtectedRoute>}></Route>
 
       </Routes>
     </div>
