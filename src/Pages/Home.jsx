@@ -16,20 +16,20 @@ const Home = () => {
 
             <div className='flex flex-col gap-2.5 font-medium mt-7.25 mb-10.25'>
                 <Link to='/registration'>
-                <button className=' text-center text-[#FFFFFF] text-base px-26.75 py-3.25 ml-5 mr-5 w-83.75 h-11.5 bg-[#6C25FF] rounded-md cursor-pointer active:bg-[#8970bf] hover:bg-[#8970bf] active:text-[#1D2226] hover:text-[#1D2226] transition-all duration-300 ease-in-out'>
-                 Create Account
-                </button>
+                    <button className=' text-center text-[#FFFFFF] text-base px-26.75 py-3.25 ml-5 mr-5 w-83.75 h-11.5 bg-[#6C25FF] rounded-md cursor-pointer active:bg-[#8970bf] hover:bg-[#8970bf] active:text-[#1D2226] hover:text-[#1D2226] transition-all duration-300 ease-in-out'>
+                        Create Account
+                    </button>
 
                 </Link>
                 <Link to='/login'>
-                <button className='text-center text-[#1D2226] text-[16px] px-16.5 py-3.25 ml-5 mr-5 w-83.75 h-11.5 bg-[#6C25FF4B] rounded-md cursor-pointer active:bg-[#6C25FF] hover:bg-[#6C25FF] active:text-[#FFFFFF] hover:text-[#FFFFFF] transition-all duration-300 ease-in-out'>
-                    Already Registered? Login
-                </button>
+                    <button className='text-center text-[#1D2226] text-[16px] px-16.5 py-3.25 ml-5 mr-5 w-83.75 h-11.5 bg-[#6C25FF4B] rounded-md cursor-pointer active:bg-[#6C25FF] hover:bg-[#6C25FF] active:text-[#FFFFFF] hover:text-[#FFFFFF] transition-all duration-300 ease-in-out'>
+                        Already Registered? Login
+                    </button>
 
                 </Link>
 
             </div>
-            
+
         </div>
     );
 };

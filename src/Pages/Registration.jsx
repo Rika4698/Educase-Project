@@ -82,7 +82,7 @@ const Registration = () => {
         const hasError = Object.values(newErrors).some((msg) => msg);
 
         if (hasError) return;
-
+        localStorage.setItem("user", JSON.stringify(formData));
         toast.success("Account Create Successfully.");
         navigate('/login');
     };

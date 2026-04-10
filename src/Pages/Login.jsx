@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom';
 
 const Login = () => {
     const navigate = useNavigate();
-    const [isValid, setIsValid] = useState(false);
+    const [errors, setErrors] = useState({});
 
     const [formData, setFormData] = useState({
         email: '',
@@ -12,29 +12,78 @@ const Login = () => {
     });
 
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+    const validate = (name, value) => {
+        let message = "";
+
+        if (!value?.trim()) {
+            message = `${name.charAt(0).toUpperCase() + name.slice(1)} is required`;
+        }
+
+        if (name === "email" && value && !emailRegex.test(value)) {
+            message = "Enter a valid email address";
+        }
+
+        if (name === "password" && value && value.length < 6) {
+            message = "Password must be at least 6 characters";
+        }
+
+        return message;
+    };
+
     const handleChange = (e) => {
         const { id, value } = e.target;
+
         setFormData((prev) => ({ ...prev, [id]: value }));
 
+        setErrors((prev) => ({
+            ...prev,
+            [id]: validate(id, value),
+        }));
     };
 
     const isFormValid =
+        formData.email.trim() &&
+        formData.password.trim() &&
         emailRegex.test(formData.email) &&
-
-        formData.password.trim().length >= 6;
+        formData.password.length >= 6 &&
+        !errors.email &&
+        !errors.password;
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        setIsValid(true);
-        if (!isFormValid)
+
+        let newErrors = {};
+
+        Object.keys(formData).forEach((key) => {
+            newErrors[key] = validate(key, formData[key]);
+        });
+
+        setErrors(newErrors);
+
+        const hasError = Object.values(newErrors).some((msg) => msg);
+
+        if (hasError) return;
+
+        const storedUser = JSON.parse(localStorage.getItem("user"));
+
+        if (!storedUser) {
+            toast.error("No registered user found");
             return;
+        }
+
+        if (
+            storedUser.email !== formData.email ||
+            storedUser.password !== formData.password
+        ) {
+            toast.error("Invalid email or password");
+            return;
+        }
 
         toast.success("Login Successfully!");
-
-
-        navigate('/user');
-
+        navigate("/user");
     };
+
 
     return (
         <div className='bg-[#F7F8F9] w-93.75 h-203 border border-gray-200'>
@@ -47,13 +96,13 @@ const Login = () => {
                 {/* email */}
 
                 <div className='relative'>
-                    <input id="email" type='email' value={formData.email} onChange={handleChange} placeholder='Enter email address' className={`appearance-none w-83.75 h-10 ml-5 mr-5 rounded-md text-[#1D2226] border focus:outline-none focus:ring-[0.5px] pl-4 pt-3 pb-2.75 placeholder:text-sm placeholder:h-4.25 placeholder:text-[#919191] ${isValid && !formData.email.trim() ? "border-red-500 focus:ring-red-500 focus:border-red-500" : "border-[#CBCBCB] focus:ring-[#6C25FF] focus:border-[#6C25FF]"} `} />
-                    <label htmlFor='email' className={`absolute left-7 -top-2 mb-8.5 pl-1.25  w-25.75 h-3.75 bg-[#F7F8F9] text-[13px] text-left leading-3 font-normal pb-0.5  ${isValid && (!formData.email.trim() || !emailRegex.test(formData.email)) ? "text-red-500" : "text-[#6C25FF]"}`}>Email Address
+                    <input id="email" type='email' value={formData.email} onChange={handleChange} placeholder='Enter email address' className={`appearance-none w-83.75 h-10 ml-5 mr-5 rounded-md text-[#1D2226] border focus:outline-none focus:ring-[0.5px] pl-4 pt-3 pb-2.75 placeholder:text-sm placeholder:h-4.25 placeholder:text-[#919191] ${errors.email ? "border-red-500 focus:ring-red-500 focus:border-red-500" : "border-[#CBCBCB] focus:ring-[#6C25FF] focus:border-[#6C25FF]"} `} />
+                    <label htmlFor='email' className={`absolute left-7 -top-2 mb-8.5 pl-1.25  w-25.75 h-3.75 bg-[#F7F8F9] text-[13px] text-left leading-3 font-normal pb-0.5  ${errors.email ? "text-red-500" : "text-[#6C25FF]"}`}>Email Address
                     </label>
 
-                    {formData.email && !emailRegex.test(formData.email) && (
-                        <p className="text-red-500 text-sm mt-1 ml-6">
-                            Enter a valid email address
+                    {errors.email && (
+                        <p className="text-red-500 text-xs ml-6 mt-1">
+                            {errors.email}
                         </p>
                     )}
 
@@ -62,13 +111,13 @@ const Login = () => {
                 {/* password */}
 
                 <div className='relative'>
-                    <input id="password" type='password' value={formData.password} onChange={handleChange} placeholder='Enter password' className={`appearance-none w-83.75 h-10 ml-5 mr-5 rounded-md text-[#1D2226] border focus:outline-none focus:ring-[0.5px] pl-4 pt-3 pb-2.75 placeholder:text-sm placeholder:h-4.25 placeholder:text-[#919191] ${isValid && !formData.password.trim() ? "border-red-500 focus:ring-red-500 focus:border-red-500" : "border-[#CBCBCB] focus:ring-[#6C25FF] focus:border-[#6C25FF]"} `} />
-                    <label htmlFor='email' className={`absolute left-7 -top-2 mb-8.5 pl-1.25 w-25.75 h-3.75 bg-[#F7F8F9] text-[13px] text-left leading-3 font-normal pb-0.5  ${isValid && (!formData.password.trim() || formData.password.length < 6) ? "text-red-500" : "text-[#6C25FF]"}`}>Password
+                    <input id="password" type='password' value={formData.password} onChange={handleChange} placeholder='Enter password' className={`appearance-none w-83.75 h-10 ml-5 mr-5 rounded-md text-[#1D2226] border focus:outline-none focus:ring-[0.5px] pl-4 pt-3 pb-2.75 placeholder:text-sm placeholder:h-4.25 placeholder:text-[#919191] ${errors.password ? "border-red-500 focus:ring-red-500 focus:border-red-500" : "border-[#CBCBCB] focus:ring-[#6C25FF] focus:border-[#6C25FF]"} `} />
+                    <label htmlFor='email' className={`absolute left-7 -top-2 mb-8.5 pl-1.25 w-25.75 h-3.75 bg-[#F7F8F9] text-[13px] text-left leading-3 font-normal pb-0.5  ${errors.password ? "text-red-500" : "text-[#6C25FF]"}`}>Password
                     </label>
 
-                    {formData.password && formData.password.length < 6 && (
-                        <p className="text-red-500 text-sm mt-1 ml-6">
-                            Password must be at least 6 characters
+                    {errors.password && (
+                        <p className="text-red-500 text-xs ml-6 mt-1">
+                            {errors.password}
                         </p>
                     )}
 
